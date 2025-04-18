@@ -5,11 +5,19 @@
 #define TIME2_PLS_OF_1ms  	(1000/TIM2_TICK)
 #define TIM2_MAX	  		(0xffffu)
 
-
+#if 0
 #define TIM4_TICK	  		(20) 				// usec
 #define TIM4_FREQ 	  		(1000000/TIM4_TICK) // Hz
 #define TIME4_PLS_OF_1ms  	(1000/TIM4_TICK)
+#endif
+
 #define TIM4_MAX	  		(0xffffu)
+
+#if 1 //과제용 4번
+#define TIM4_TICK	  		(1000000/TIM4_FREQ) 				// usec
+#define TIM4_FREQ 	  		(1000000) // Hz
+#define TIME4_PLS_OF_1ms  	(1000/TIM4_TICK)
+#endif
 
 
 void TIM2_Stopwatch_Start(void)
@@ -173,12 +181,6 @@ void TIM3_Out_Stop(void)
 
 // 타이머4번 ---------------------------------------
 
-#if 1 //과제용 4번
-#define TIM4_TICK	  		(1000000/TIM4_FREQ) 				// usec
-#define TIM4_FREQ 	  		(1000000) // Hz
-#define TIME4_PLS_OF_1ms  	(1000/TIM4_TICK)
-#endif
-
 
 void TIM4_Out_Init(void)
 {
@@ -211,9 +213,49 @@ void TIM4_Out_Stop(void)
 	Macro_Clear_Bit(TIM4->CR1, 0);
 }
 
+void TIM4_Stop(void)
+{
+	Macro_Clear_Bit(TIM4->CR1, 0);
+	
+}
+
 void TIM4_Change_Duty(unsigned int duty)
 {
 	TIM4->CCR3 = (unsigned int)(TIM4->ARR*(duty/10.) + 0.5)-1;
 	TIM4->EGR = 1<<0;
 	Macro_Set_Bit(TIM4->CR1, 0);
+}
+
+void TIM4_Repeat(int time)
+{
+	Macro_Set_Bit(RCC->APB1ENR, 2);
+
+	// TIM4 CR1: ARPE=0, down counter, repeat mode
+	TIM4->CR1 = (0<<7)|(1<<4)|(0<<3);
+	// PSC(50KHz),  ARR(reload시 값) 설정
+	TIM4->PSC = (unsigned int)(TIMXCLK/50000.0 + 0.5)-1;
+	TIM4->ARR = (unsigned int)(time*50000.0/1000.0 + 0.5)-1;
+	// UG 이벤트 발생
+	TIM4->EGR = 1<<0;
+	// Update Interrupt Pending Clear
+	Macro_Clear_Bit(TIM4->SR, 0);
+	// Update Interrupt Enable
+
+	// TIM4 start
+	Macro_Set_Bit(TIM4->CR1, 0);
+}
+
+int TIM4_Check_Timeout(void)
+{
+	// 타이머가 timeout 이면 1 리턴, 아니면 0 리턴
+	if(Macro_Check_Bit_Set(TIM4->SR, 0))
+	{
+		Macro_Clear_Bit(TIM4->SR, 0);
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+
 }

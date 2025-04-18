@@ -51,7 +51,7 @@ extern void TIM3_Out_Stop(void);
 extern void TIM4_Change_Duty(unsigned int duty);
 extern void TIM4_Out_Init(void);
 extern void TIM4_Out_PWM_Generation(unsigned int freq, unsigned int duty);
-extern void TIM4_Out_Init(void)
+extern void TIM4_Out_Stop(void);
 // SysTick.c
 
 extern void SysTick_Run(unsigned int msec);

@@ -5,7 +5,7 @@
 #define TIME2_PLS_OF_1ms  	(1000/TIM2_TICK)
 #define TIM2_MAX	  		(0xffffu)
 
-#if 0
+#if 1
 #define TIM4_TICK	  		(20) 				// usec
 #define TIM4_FREQ 	  		(1000000/TIM4_TICK) // Hz
 #define TIME4_PLS_OF_1ms  	(1000/TIM4_TICK)
@@ -16,7 +16,7 @@
 #define TIM3_TICK	  		(1000000/TIM3_FREQ)	// usec
 #define TIME3_PLS_OF_1ms  	(1000/TIM3_TICK)
 
-#if 1 //과제용 4번
+#if 0 //과제용 4번
 #define TIM4_TICK	  		(1000000/TIM4_FREQ) 				// usec
 #define TIM4_FREQ 	  		(1000000) // Hz
 #define TIME4_PLS_OF_1ms  	(1000/TIM4_TICK)

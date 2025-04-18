@@ -11,8 +11,8 @@ void Uart1_Init(int baud)
 	unsigned int mant;
 	unsigned int frac;
 
-	Macro_Set_Bit(RCC->APB2ENR, 2);
-	Macro_Set_Bit(RCC->APB2ENR, 14);
+	Macro_Set_Bit(RCC->APB2ENR, 2); //gpioa clock enable
+	Macro_Set_Bit(RCC->APB2ENR, 14); //usart1 clock enable
 	Macro_Write_Block(GPIOA->CRH, 0xff, 0x8a, 4);
 	Macro_Set_Bit(GPIOA->ODR, 10);
 
