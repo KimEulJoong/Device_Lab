@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "device_driver.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
