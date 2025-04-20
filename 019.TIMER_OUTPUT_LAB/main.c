@@ -82,7 +82,7 @@ void Main(void)
 		TIM2_Delay(100);
 		Uart1_Printf(".");
 
-		x = Uart1_Get_Char();
+		x = Uart1_Get_Pressed();
 
 		
 		if (x != 0) 
@@ -93,7 +93,6 @@ void Main(void)
 			{
 				timer_run = 0;
 				TIM4_Stop();
-				LED_All_Off();
 				
 			}
 			else if(x >= '1' && x <= '9')
@@ -105,7 +104,7 @@ void Main(void)
 			}
 		}
 
-		if(TIM4_Check_Timeout() && timer_run) 
+		/* if(TIM4_Check_Timeout() && timer_run) 
 		{
 			if(timer_run){
 				LED_All_Off();
@@ -115,7 +114,7 @@ void Main(void)
 				LED_All_On();
                 timer_run = 1;
 			}
-		}
+		} */
 	}
 }
 #endif
